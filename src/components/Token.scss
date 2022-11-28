@@ -1,7 +1,7 @@
 @import "../styles/global.scss";
 
 .Token {
-  border: 3px solid $grey;
+  border: 2px solid $grey;
   border-radius: 50px;
   height: 30px;
   width: 30px;
@@ -11,7 +11,12 @@
   &.bg-yellow {
     border-color: $yellow;
   }
+  &.dim {
+    opacity: 0.3;
+  }
   &.win {
-    box-shadow: 0 0 3px 3px $white;
+    opacity: 1;
+    border-color: $white;
+    box-shadow: 0 0 1px 1px $white;
   }
 }

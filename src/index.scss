@@ -8,6 +8,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: $darkest;
   color: $white;
+  user-select: none;
 }
 
 code {

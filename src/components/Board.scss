@@ -2,10 +2,11 @@
 
 .Board {
   display: flex;
-  border: 3px solid $white;
+  border: 2px solid $grey;
   border-radius: 15px;
   height: 300px;
   width: 450px;
+  background-color: $blue;
   .TokenColumns {
     display: flex;
     margin: 0 1rem;
@@ -22,7 +23,7 @@
     &:hover:not(.disabled) {
       cursor: pointer;
       .Token {
-        border-width: 3px;
+        border-width: 2px;
       }
       &.turn-red {
         .bg-red,
@@ -31,9 +32,6 @@
         }
         .bg-empty {
           border-color: $red;
-        }
-        :last-child(.bg-empty) {
-          border-color: $blue;
         }
       }
       &.turn-yellow {

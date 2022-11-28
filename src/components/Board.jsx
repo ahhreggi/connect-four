@@ -2,11 +2,12 @@ import "./Board.scss";
 import Token from "./Token";
 import PropTypes from "prop-types";
 
-const Board = ({ grid, onClick, turn }) => {
+const Board = ({ grid, onClick, turn, isActive }) => {
   Board.propTypes = {
     grid: PropTypes.array,
     onClick: PropTypes.func,
-    turn: PropTypes.number
+    turn: PropTypes.number,
+    isActive: PropTypes.bool
   };
 
   const TokenColumns = ({ grid, onClick }) => {
@@ -23,7 +24,7 @@ const Board = ({ grid, onClick, turn }) => {
       <div className="TokenColumns">
         {grid &&
           grid.map((col, i) => {
-            const isDisabled = col[0] || turn === -1 ? "disabled" : "";
+            const isDisabled = col[0] || !isActive ? "disabled" : "";
             return (
               <div
                 className={`TokenColumn turn-${turn === 0 ? "red" : "yellow"} ${
@@ -42,7 +43,7 @@ const Board = ({ grid, onClick, turn }) => {
     );
   };
   return (
-    <div className="Board">
+    <div className={`Board border-${isActive ? (!turn ? "red" : "yellow") : "white"}`}>
       <TokenColumns grid={grid} onClick={(column) => onClick(turn, column)} />
     </div>
   );

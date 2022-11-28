@@ -6,30 +6,53 @@ import { useState, useEffect } from "react";
 
 const App = () => {
   const [grid, setGrid] = useState();
+  const [turn, setTurn] = useState(0);
   const [lastTurn, setLastTurn] = useState();
   const [active, setActive] = useState(true);
+  const [moves, setMoves] = useState(0);
 
   useEffect(() => {
-    const newGrid = [];
-    for (let i = 0; i < 7; i++) {
-      const row = new Array(6).fill(0);
-      newGrid.push(row);
-    }
-    setGrid(newGrid);
+    resetGrid();
   }, []);
 
   useEffect(() => {
     if (!lastTurn) return;
     const result = evaluateTurn(lastTurn, grid);
     if (result) {
-      const { winningCoords, multi } = result;
+      const { winningCoords, multi, color } = result;
       setActive(false);
       highlightWin(winningCoords, grid);
+      setTurn(color === "red" ? 0 : 1);
+      console.log(`${multi}-way win for ${color}!`);
     }
   }, [lastTurn]);
 
+  const resetGrid = () => {
+    const newGrid = [];
+    for (let i = 0; i < 7; i++) {
+      const row = new Array(6).fill(0);
+      newGrid.push(row);
+    }
+    setGrid(newGrid);
+  };
+
+  const handleReset = () => {
+    setTurn(0);
+    setLastTurn(undefined);
+    setMoves(0);
+    resetGrid();
+    setActive(true);
+  };
+
   const highlightWin = (winningCoords, grid) => {
     const updatedGrid = [...grid];
+    for (let col = 0; col < updatedGrid.length; col++) {
+      for (let row = 0; row < updatedGrid[0].length; row++) {
+        if (updatedGrid[col][row]) {
+          updatedGrid[col][row] += " dim";
+        }
+      }
+    }
     for (const [col, row] of winningCoords) {
       updatedGrid[col][row] += " win";
     }
@@ -166,7 +189,7 @@ const App = () => {
       winningCoords.push(...streak);
       multi++;
     });
-    return winningStreaks.length ? { winningCoords, multi } : null;
+    return winningStreaks.length ? { winningCoords, multi, color } : null;
   };
 
   const handleClick = (playerId, column, grid) => {
@@ -182,18 +205,18 @@ const App = () => {
     setGrid(updatedGrid);
     setTurn(!playerId ? 1 : 0);
     setLastTurn([column, nextAvailableIdx]);
+    setMoves(moves + 1);
     return true;
   };
 
-  const [turn, setTurn] = useState(0);
-
   return (
     <div className="App">
-      <h1>Connect Four</h1>
       <Stage
         grid={grid}
         onClick={(playerId, column) => handleClick(playerId, column, grid)}
-        turn={active ? turn : -1}
+        turn={turn}
+        isActive={active}
+        onReset={() => handleReset()}
       />
     </div>
   );

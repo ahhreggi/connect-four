@@ -2,9 +2,22 @@
 
 .Stage {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 90vh;
   width: 90vw;
-  border: 1px solid $white;
+  .reset-wrapper {
+    height: 20px;
+  }
+  .reset {
+    margin-top: 30px;
+    color: $grey;
+    &:hover,
+    &.active {
+      cursor: pointer;
+      color: $white;
+      font-size: 18px;
+    }
+  }
 }

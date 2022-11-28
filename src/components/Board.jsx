@@ -23,7 +23,7 @@ const Board = ({ grid, onClick, turn }) => {
       <div className="TokenColumns">
         {grid &&
           grid.map((col, i) => {
-            const isDisabled = col[0] ? "disabled" : "";
+            const isDisabled = col[0] || turn === -1 ? "disabled" : "";
             return (
               <div
                 className={`TokenColumn turn-${turn === 0 ? "red" : "yellow"} ${

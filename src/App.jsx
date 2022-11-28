@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 
 const App = () => {
   const [grid, setGrid] = useState();
+  const [lastTurn, setLastTurn] = useState();
+  const [active, setActive] = useState(true);
 
   useEffect(() => {
     const newGrid = [];
@@ -15,6 +17,39 @@ const App = () => {
     }
     setGrid(newGrid);
   }, []);
+
+  useEffect(() => {
+    if (!lastTurn) return;
+    const winner = evaluateTurn(lastTurn, grid);
+    if (winner) {
+      console.log("Winner!", winner);
+      setActive(false);
+    }
+  }, [lastTurn, grid]);
+
+  const evaluateTurn = (turnCoords, grid) => {
+    const [col, row] = turnCoords;
+    const color = grid[col][row];
+
+    const getMax = (current, max) => {
+      return current.length > max.length ? current : max;
+    };
+
+    // Check column/vertical win
+    let streak = [];
+    let maxStreak = [];
+    const column = grid[col];
+    for (let row = 0; row < column.length; row++) {
+      if (column[row] === color) {
+        streak.push([col, row]);
+      } else {
+        maxStreak = getMax(streak, maxStreak);
+        streak = [];
+      }
+    }
+    maxStreak = getMax(streak, maxStreak);
+    return maxStreak.length === 4 ? maxStreak : false;
+  };
 
   const handleClick = (playerId, column, grid) => {
     const color = !playerId ? "red" : "yellow";
@@ -28,6 +63,7 @@ const App = () => {
     updatedGrid.splice(column, 1, updatedColumn);
     setGrid(updatedGrid);
     setTurn(!playerId ? 1 : 0);
+    setLastTurn([column, nextAvailableIdx]);
     return true;
   };
 
@@ -39,7 +75,7 @@ const App = () => {
       <Stage
         grid={grid}
         onClick={(playerId, column) => handleClick(playerId, column, grid)}
-        turn={turn}
+        turn={active ? turn : -1}
       />
     </div>
   );

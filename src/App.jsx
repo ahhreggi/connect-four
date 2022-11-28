@@ -20,11 +20,11 @@ const App = () => {
 
   useEffect(() => {
     if (!lastTurn) return;
-    const winningTokens = evaluateTurn(lastTurn, grid);
-    if (winningTokens) {
-      console.log("Winner!", winningTokens);
+    const result = evaluateTurn(lastTurn, grid);
+    if (result) {
+      const { winningCoords, multi } = result;
       setActive(false);
-      highlightWin(winningTokens, grid);
+      highlightWin(winningCoords, grid);
     }
   }, [lastTurn]);
 
@@ -34,18 +34,19 @@ const App = () => {
       updatedGrid[col][row] += " win";
     }
     setGrid(updatedGrid);
-    console.log(updatedGrid);
   };
 
   const evaluateTurn = (turnCoords, grid) => {
     const [col, row] = turnCoords;
     const color = grid[col][row];
 
-    const isWinningStreak = (streak) => streak.length === 4;
+    const isWinningStreak = (streak) => streak.length >= 4;
 
     const getMax = (current, max) => {
       return current.length > max.length ? current : max;
     };
+
+    const winningStreaks = [];
 
     // Check vertical win
     let streak = [];
@@ -61,7 +62,9 @@ const App = () => {
     }
     maxVerticalStreak = getMax(streak, maxVerticalStreak);
 
-    if (isWinningStreak(maxVerticalStreak)) return maxVerticalStreak;
+    if (isWinningStreak(maxVerticalStreak)) {
+      winningStreaks.push(maxVerticalStreak);
+    }
 
     // Check horizontal win
     streak = [];
@@ -80,7 +83,9 @@ const App = () => {
     }
     maxHorizontalStreak = getMax(streak, maxHorizontalStreak);
 
-    if (isWinningStreak(maxHorizontalStreak)) return maxHorizontalStreak;
+    if (isWinningStreak(maxHorizontalStreak)) {
+      winningStreaks.push(maxHorizontalStreak);
+    }
 
     // Check diagonal win 1
     streak = [];
@@ -114,7 +119,9 @@ const App = () => {
       }
       maxDiagonalStreak1 = getMax(streak, maxDiagonalStreak1);
 
-      if (isWinningStreak(maxDiagonalStreak1)) return maxDiagonalStreak1;
+      if (isWinningStreak(maxDiagonalStreak1)) {
+        winningStreaks.push(maxDiagonalStreak1);
+      }
     }
 
     // Check diagonal win 2
@@ -149,8 +156,17 @@ const App = () => {
       }
       maxDiagonalStreak2 = getMax(streak, maxDiagonalStreak2);
 
-      if (isWinningStreak(maxDiagonalStreak2)) return maxDiagonalStreak2;
+      if (isWinningStreak(maxDiagonalStreak2)) {
+        winningStreaks.push(maxDiagonalStreak2);
+      }
     }
+    const winningCoords = [];
+    let multi = 0;
+    winningStreaks.forEach((streak) => {
+      winningCoords.push(...streak);
+      multi++;
+    });
+    return winningStreaks.length ? { winningCoords, multi } : null;
   };
 
   const handleClick = (playerId, column, grid) => {

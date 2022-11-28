@@ -16,20 +16,24 @@ const Board = ({ grid, onClick, turn }) => {
     };
 
     const handleClick = (column) => {
-      const valid = onClick(column);
-      if (!valid) {
-        console.log("Column full!");
-      }
+      onClick(column);
     };
 
     return (
       <div className="TokenColumns">
         {grid &&
           grid.map((col, i) => {
+            const isDisabled = col[0] ? "disabled" : "";
             return (
-              <div className="TokenColumn" key={i} onClick={() => handleClick(i)}>
+              <div
+                className={`TokenColumn turn-${turn === 0 ? "red" : "yellow"} ${
+                  isDisabled ? "disabled" : ""
+                }`}
+                key={i}
+                onClick={() => (isDisabled ? null : handleClick(i))}
+              >
                 {col.map((color, i) => (
-                  <Token key={i} color={color || ""} />
+                  <Token key={i} color={color || "empty"} />
                 ))}
               </div>
             );
@@ -39,11 +43,7 @@ const Board = ({ grid, onClick, turn }) => {
   };
   return (
     <div className="Board">
-      <TokenColumns
-        grid={grid}
-        onClick={(column) => onClick(turn, column)}
-        colors={["red", "yellow"]}
-      />
+      <TokenColumns grid={grid} onClick={(column) => onClick(turn, column)} />
     </div>
   );
 };

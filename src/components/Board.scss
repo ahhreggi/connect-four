@@ -2,7 +2,8 @@
 
 .Board {
   display: flex;
-  border: 1px solid white;
+  border: 3px solid $white;
+  border-radius: 15px;
   height: 300px;
   width: 450px;
   .TokenColumns {
@@ -18,5 +19,32 @@
     align-items: center;
     margin: 0 5px;
     padding: 5px;
+    &:hover:not(.disabled) {
+      cursor: pointer;
+      .Token {
+        border-width: 3px;
+      }
+      &.turn-red {
+        .bg-red,
+        .bg-yellow {
+          border-color: transparent;
+        }
+        .bg-empty {
+          border-color: $red;
+        }
+        :last-child(.bg-empty) {
+          border-color: $blue;
+        }
+      }
+      &.turn-yellow {
+        .bg-red,
+        .bg-yellow {
+          border-color: transparent;
+        }
+        .bg-empty {
+          border-color: $yellow;
+        }
+      }
+    }
   }
 }

@@ -5,4 +5,10 @@
   border-radius: 50px;
   height: 30px;
   width: 30px;
+  &.bg-red {
+    border-color: $red;
+  }
+  &.bg-yellow {
+    border-color: $yellow;
+  }
 }

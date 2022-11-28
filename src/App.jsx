@@ -41,24 +41,46 @@ const App = () => {
     const [col, row] = turnCoords;
     const color = grid[col][row];
 
+    const isWinningStreak = (streak) => streak.length === 4;
+
     const getMax = (current, max) => {
       return current.length > max.length ? current : max;
     };
 
-    // Check column/vertical win
+    // Check vertical win
     let streak = [];
-    let maxStreak = [];
-    const column = grid[col];
-    for (let row = 0; row < column.length; row++) {
-      if (column[row] === color) {
+    let maxVerticalStreak = [];
+    const targetColumn = grid[col];
+    for (let row = 0; row < targetColumn.length; row++) {
+      if (targetColumn[row] === color) {
         streak.push([col, row]);
       } else {
-        maxStreak = getMax(streak, maxStreak);
+        maxVerticalStreak = getMax(streak, maxVerticalStreak);
         streak = [];
       }
     }
-    maxStreak = getMax(streak, maxStreak);
-    return maxStreak.length === 4 ? maxStreak : false;
+    maxVerticalStreak = getMax(streak, maxVerticalStreak);
+
+    if (isWinningStreak(maxVerticalStreak)) return maxVerticalStreak;
+
+    // Check horizontal win
+    streak = [];
+    let maxHorizontalStreak = [];
+    const targetRow = [];
+    for (const column of grid) {
+      targetRow.push(column[row]);
+    }
+    for (let col = 0; col < targetRow.length; col++) {
+      if (targetRow[col] === color) {
+        streak.push([col, row]);
+      } else {
+        maxHorizontalStreak = getMax(streak, maxHorizontalStreak);
+        streak = [];
+      }
+    }
+    maxHorizontalStreak = getMax(streak, maxHorizontalStreak);
+
+    if (isWinningStreak(maxHorizontalStreak)) return maxHorizontalStreak;
   };
 
   const handleClick = (playerId, column, grid) => {

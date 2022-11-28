@@ -4,5 +4,19 @@
   display: flex;
   border: 1px solid white;
   height: 300px;
-  width: 500px;
+  width: 450px;
+  .TokenColumns {
+    display: flex;
+    margin: 0 1rem;
+    flex: 1;
+  }
+  .TokenColumn {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 0 5px;
+    padding: 5px;
+  }
 }

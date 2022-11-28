@@ -1,42 +1,49 @@
 import "./Board.scss";
 import Token from "./Token";
+import PropTypes from "prop-types";
 
-const Board = () => {
-  const getTokenColor = (id) => {
-    switch (id) {
-      case 1:
-        return "red";
-      case 2:
-        return "yellow";
-      case 0:
-      default:
-        return "";
-    }
+const Board = ({ grid, onClick, turn }) => {
+  Board.propTypes = {
+    grid: PropTypes.array,
+    onClick: PropTypes.func,
+    turn: PropTypes.number
   };
 
-  const grid = [];
-  for (let i = 0; i < 7; i++) {
-    const row = new Array(6).fill(0);
-    grid.push(row);
-  }
-  const TokenColumns = () => {
+  const TokenColumns = ({ grid, onClick }) => {
+    TokenColumns.propTypes = {
+      grid: PropTypes.array,
+      onClick: PropTypes.func
+    };
+
+    const handleClick = (column) => {
+      const valid = onClick(column);
+      if (!valid) {
+        console.log("Column full!");
+      }
+    };
+
     return (
       <div className="TokenColumns">
-        {grid.map((row, i) => {
-          return (
-            <div className="TokenColumn" key={i}>
-              {row.map((colorId, i) => (
-                <Token key={i} color={getTokenColor(colorId)} />
-              ))}
-            </div>
-          );
-        })}
+        {grid &&
+          grid.map((col, i) => {
+            return (
+              <div className="TokenColumn" key={i} onClick={() => handleClick(i)}>
+                {col.map((color, i) => (
+                  <Token key={i} color={color || ""} />
+                ))}
+              </div>
+            );
+          })}
       </div>
     );
   };
   return (
     <div className="Board">
-      <TokenColumns />
+      <TokenColumns
+        grid={grid}
+        onClick={(column) => onClick(turn, column)}
+        colors={["red", "yellow"]}
+      />
     </div>
   );
 };

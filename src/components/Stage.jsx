@@ -1,10 +1,10 @@
 import "./Stage.scss";
 import Board from "./Board";
 
-const Stage = () => {
+const Stage = ({ ...props }) => {
   return (
     <div className="Stage">
-      <Board />
+      <Board {...props} />
     </div>
   );
 };

@@ -81,6 +81,76 @@ const App = () => {
     maxHorizontalStreak = getMax(streak, maxHorizontalStreak);
 
     if (isWinningStreak(maxHorizontalStreak)) return maxHorizontalStreak;
+
+    // Check diagonal win 1
+    streak = [];
+    let maxDiagonalStreak1 = [];
+    const targetDiagonal1 = [[col, row]];
+    // Get top left slots
+    let dCol1 = col - 1;
+    let dRow1 = row - 1;
+    while (dCol1 >= 0 && dRow1 >= 0) {
+      targetDiagonal1.unshift([dCol1, dRow1]);
+      dCol1--;
+      dRow1--;
+    }
+    // Get bottom right slots
+    dCol1 = col + 1;
+    dRow1 = row + 1;
+    while (dCol1 < grid.length && dRow1 < grid[0].length) {
+      targetDiagonal1.push([dCol1, dRow1]);
+      dCol1++;
+      dRow1++;
+    }
+    // Check if win is possible for this diagonal
+    if (targetDiagonal1.length >= 4) {
+      for (const [col, row] of targetDiagonal1) {
+        if (grid[col][row] === color) {
+          streak.push([col, row]);
+        } else {
+          maxDiagonalStreak1 = getMax(streak, maxDiagonalStreak1);
+          streak = [];
+        }
+      }
+      maxDiagonalStreak1 = getMax(streak, maxDiagonalStreak1);
+
+      if (isWinningStreak(maxDiagonalStreak1)) return maxDiagonalStreak1;
+    }
+
+    // Check diagonal win 2
+    streak = [];
+    let maxDiagonalStreak2 = [];
+    const targetDiagonal2 = [[col, row]];
+    // Get bottom left slots
+    let dCol2 = col - 1;
+    let dRow2 = row + 1;
+    while (dCol2 >= 0 && dRow2 <= grid[0].length) {
+      targetDiagonal2.unshift([dCol2, dRow2]);
+      dCol2--;
+      dRow2++;
+    }
+    // Get top right slots
+    dCol2 = col + 1;
+    dRow2 = row - 1;
+    while (dCol2 < grid.length && dRow2 >= 0) {
+      targetDiagonal2.push([dCol2, dRow2]);
+      dCol2++;
+      dRow2--;
+    }
+    // Check if win is possible for this diagonal
+    if (targetDiagonal2.length >= 4) {
+      for (const [col, row] of targetDiagonal2) {
+        if (grid[col][row] === color) {
+          streak.push([col, row]);
+        } else {
+          maxDiagonalStreak2 = getMax(streak, maxDiagonalStreak2);
+          streak = [];
+        }
+      }
+      maxDiagonalStreak2 = getMax(streak, maxDiagonalStreak2);
+
+      if (isWinningStreak(maxDiagonalStreak2)) return maxDiagonalStreak2;
+    }
   };
 
   const handleClick = (playerId, column, grid) => {

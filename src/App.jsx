@@ -20,12 +20,22 @@ const App = () => {
 
   useEffect(() => {
     if (!lastTurn) return;
-    const winner = evaluateTurn(lastTurn, grid);
-    if (winner) {
-      console.log("Winner!", winner);
+    const winningTokens = evaluateTurn(lastTurn, grid);
+    if (winningTokens) {
+      console.log("Winner!", winningTokens);
       setActive(false);
+      highlightWin(winningTokens, grid);
     }
-  }, [lastTurn, grid]);
+  }, [lastTurn]);
+
+  const highlightWin = (winningCoords, grid) => {
+    const updatedGrid = [...grid];
+    for (const [col, row] of winningCoords) {
+      updatedGrid[col][row] += " win";
+    }
+    setGrid(updatedGrid);
+    console.log(updatedGrid);
+  };
 
   const evaluateTurn = (turnCoords, grid) => {
     const [col, row] = turnCoords;

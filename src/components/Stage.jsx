@@ -8,7 +8,9 @@ const Stage = ({ onReset, ...props }) => {
   };
   return (
     <div className="Stage">
-      <h1>Connect Four</h1>
+      <a href="https://github.com/ahhreggi/connect-four" target="_blank" rel="noreferrer">
+        <h1>Connect Four</h1>
+      </a>
       <Board {...props} />
       <div className="reset-wrapper">
         <div className="reset" onClick={() => onReset()}>

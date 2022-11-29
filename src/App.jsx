@@ -20,7 +20,7 @@ const App = () => {
       const { winningCoords, color } = result;
       setActive(false);
       highlightWin(winningCoords, grid);
-      setTurn(color === "red" ? 0 : 1);
+      setTurn(color === "first" ? 0 : 1);
     } else if (moves === 42) {
       setActive(false);
     }
@@ -186,7 +186,7 @@ const App = () => {
   };
 
   const handleClick = (playerId, column, grid) => {
-    const color = !playerId ? "red" : "yellow";
+    const color = !playerId ? "first" : "second";
     const updatedColumn = [...grid[column]].reverse();
     let nextAvailableIdx = updatedColumn.indexOf(0);
     if (nextAvailableIdx === -1) return false;

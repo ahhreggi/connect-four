@@ -27,7 +27,7 @@ const Board = ({ grid, onClick, turn, isActive }) => {
             const isDisabled = col[0] || !isActive ? "disabled" : "";
             return (
               <div
-                className={`TokenColumn turn-${turn === 0 ? "red" : "yellow"} ${
+                className={`TokenColumn turn-${turn === 0 ? "first" : "second"} ${
                   isDisabled ? "disabled" : ""
                 }`}
                 key={i}
@@ -43,7 +43,7 @@ const Board = ({ grid, onClick, turn, isActive }) => {
     );
   };
   return (
-    <div className={`Board border-${isActive ? (!turn ? "red" : "yellow") : "white"}`}>
+    <div className={`Board border-${isActive ? (!turn ? "first" : "second") : "white"}`}>
       <TokenColumns grid={grid} onClick={(column) => onClick(turn, column)} />
     </div>
   );

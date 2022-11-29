@@ -25,22 +25,22 @@
       .Token {
         border-width: 2px;
       }
-      &.turn-red {
-        .bg-red,
-        .bg-yellow {
+      &.turn-first {
+        .bg-first,
+        .bg-second {
           border-color: transparent;
         }
         .bg-empty {
-          border-color: $red;
+          border-color: $first;
         }
       }
-      &.turn-yellow {
-        .bg-red,
-        .bg-yellow {
+      &.turn-second {
+        .bg-first,
+        .bg-second {
           border-color: transparent;
         }
         .bg-empty {
-          border-color: $yellow;
+          border-color: $second;
         }
       }
     }

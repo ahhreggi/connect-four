@@ -8,7 +8,7 @@
 
 <p>Built with <a href="https://reactjs.org/">React</a>, CSS</a>/<a href="https://sass-lang.com/">Sass</a>, and hosted with <a href="https://www.netlify.com/">Netlify</a></p>
 
-<b><a href="http://ahhreggi-connectfour.netlify.app/" target="_blank">
+<b><a href="http://ahhreggi-connect-four.netlify.app/" target="_blank">
 » View Live Site «
 </a></b>
 
@@ -21,7 +21,7 @@
 ## 🛠 Installation
 
 The project is live
-<b><a href="http://ahhreggi-connectfour.netlify.app/" target="_blank">here</a></b>, but if you would prefer a local installation:
+<b><a href="http://ahhreggi-connect-four.netlify.app/" target="_blank">here</a></b>, but if you would prefer a local installation:
 
 1. Clone or download this repository
    ```

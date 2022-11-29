@@ -1,5 +1,3 @@
-// import { useState, useEffect } from "react";
-// import { useSelector, useDispatch } from "react-redux";
 import "./App.scss";
 import Stage from "./components/Stage";
 import { useState, useEffect } from "react";
@@ -19,11 +17,12 @@ const App = () => {
     if (!lastTurn) return;
     const result = evaluateTurn(lastTurn, grid);
     if (result) {
-      const { winningCoords, multi, color } = result;
+      const { winningCoords, color } = result;
       setActive(false);
       highlightWin(winningCoords, grid);
       setTurn(color === "red" ? 0 : 1);
-      console.log(`${multi}-way win for ${color}!`);
+    } else if (moves === 42) {
+      setActive(false);
     }
   }, [lastTurn]);
 
@@ -86,7 +85,7 @@ const App = () => {
     maxVerticalStreak = getMax(streak, maxVerticalStreak);
 
     if (isWinningStreak(maxVerticalStreak)) {
-      winningStreaks.push(maxVerticalStreak);
+      winningStreaks.push(...maxVerticalStreak);
     }
 
     // Check horizontal win
@@ -107,7 +106,7 @@ const App = () => {
     maxHorizontalStreak = getMax(streak, maxHorizontalStreak);
 
     if (isWinningStreak(maxHorizontalStreak)) {
-      winningStreaks.push(maxHorizontalStreak);
+      winningStreaks.push(...maxHorizontalStreak);
     }
 
     // Check diagonal win 1
@@ -143,7 +142,7 @@ const App = () => {
       maxDiagonalStreak1 = getMax(streak, maxDiagonalStreak1);
 
       if (isWinningStreak(maxDiagonalStreak1)) {
-        winningStreaks.push(maxDiagonalStreak1);
+        winningStreaks.push(...maxDiagonalStreak1);
       }
     }
 
@@ -180,16 +179,10 @@ const App = () => {
       maxDiagonalStreak2 = getMax(streak, maxDiagonalStreak2);
 
       if (isWinningStreak(maxDiagonalStreak2)) {
-        winningStreaks.push(maxDiagonalStreak2);
+        winningStreaks.push(...maxDiagonalStreak2);
       }
     }
-    const winningCoords = [];
-    let multi = 0;
-    winningStreaks.forEach((streak) => {
-      winningCoords.push(...streak);
-      multi++;
-    });
-    return winningStreaks.length ? { winningCoords, multi, color } : null;
+    return winningStreaks.length ? { winningCoords: winningStreaks, color } : null;
   };
 
   const handleClick = (playerId, column, grid) => {
